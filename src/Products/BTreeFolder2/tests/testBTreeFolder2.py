@@ -73,8 +73,7 @@ class BTreeFolder2Tests(unittest.TestCase):
         values = self.f.objectValues()
         self.assertEqual(len(values), 1)
         self.assertEqual(values[0].id, 'item')
-        # Make sure the object is wrapped.
-        self.assert_(values[0] is not self.getBase(values[0]))
+        self.assert_(values[0] is self.getBase(values[0]))
 
     def testObjectItems(self):
         items = self.f.objectItems()
@@ -82,8 +81,7 @@ class BTreeFolder2Tests(unittest.TestCase):
         id, val = items[0]
         self.assertEqual(id, 'item')
         self.assertEqual(val.id, 'item')
-        # Make sure the object is wrapped.
-        self.assert_(val is not self.getBase(val))
+        self.assert_(val is self.getBase(val))
 
     def testHasKey(self):
         self.assert_(self.f.hasObject('item'))  # Old spelling

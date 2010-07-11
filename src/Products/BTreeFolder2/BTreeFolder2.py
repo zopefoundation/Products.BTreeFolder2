@@ -329,13 +329,14 @@ class BTreeFolder2Base(Persistent):
         # If 'spec' is specified, returns objects whose meta_type
         # matches 'spec'.
 
-        mti = self._mt_index
         if spec is None:
-            spec = mti.keys() #all meta types
+            return self.keys()
 
         if isinstance(spec, str):
             spec = [spec]
+
         set = None
+        mti = self._mt_index
         for meta_type in spec:
             ids = mti.get(meta_type, None)
             if ids is not None:
@@ -360,6 +361,8 @@ class BTreeFolder2Base(Persistent):
         # Returns a list of actual subobjects of the current object.
         # If 'spec' is specified, returns only objects whose meta_type
         # match 'spec'.
+        if spec is None:
+            return self.values()
         return LazyMap(self._getOb, self.objectIds(spec))
 
     security.declareProtected(access_contents_information, 'values')
@@ -371,6 +374,8 @@ class BTreeFolder2Base(Persistent):
         # Returns a list of (id, subobject) tuples of the current object.
         # If 'spec' is specified, returns only objects whose meta_type match
         # 'spec'
+        if spec is None:
+            return self.items()
         return LazyMap(lambda id, _getOb=self._getOb: (id, _getOb(id)),
                        self.objectIds(spec))
 

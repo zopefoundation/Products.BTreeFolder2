@@ -4,6 +4,9 @@ Changelog
 2.13.0 (unreleased)
 -------------------
 
+- Changed the `objectIds`, `objectItems` and `objectValues` methods to use the
+  internal OOBTree methods directly if no `spec` argument is passed.
+
 - Change implementation of `keys`, `items` and `values` method to access the
   `self._tree` OOBTree methods directly. This avoids lookups in the meta_types
   structures.
