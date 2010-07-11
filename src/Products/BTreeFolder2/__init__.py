@@ -11,9 +11,6 @@
 # FOR A PARTICULAR PURPOSE
 #
 ##############################################################################
-__doc__='''BTreeFolder2 Product Initialization
-$Id: __init__.py,v 1.4 2003/08/21 17:03:52 shane Exp $'''
-__version__='$Revision: 1.4 $'[11:-2]
 
 import BTreeFolder2
 

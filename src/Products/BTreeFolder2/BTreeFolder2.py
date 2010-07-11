@@ -12,8 +12,6 @@
 #
 ##############################################################################
 """BTreeFolder2
-
-$Id: BTreeFolder2.py,v 1.27 2004/03/17 22:49:25 urbanape Exp $
 """
 
 from cgi import escape
@@ -37,11 +35,9 @@ from OFS.event import ObjectWillBeAddedEvent
 from OFS.event import ObjectWillBeRemovedEvent
 from OFS.Folder import Folder
 from OFS.ObjectManager import BadRequestException
-from OFS.ObjectManager import BeforeDeleteException
 from OFS.subscribers import compatibilityCall
 from Persistence import Persistent
 from Products.ZCatalog.Lazy import LazyMap
-from ZODB.POSException import ConflictError
 from zope.event import notify
 from zope.lifecycleevent import ObjectAddedEvent
 from zope.lifecycleevent import ObjectRemovedEvent
@@ -51,6 +47,7 @@ from zope.container.contained import notifyContainerModified
 LOG = getLogger('BTreeFolder2')
 
 manage_addBTreeFolderForm = DTMLFile('folderAdd', globals())
+
 
 def manage_addBTreeFolder(dispatcher, id, title='', REQUEST=None):
     """Adds a new BTreeFolder object with id *id*.
@@ -71,10 +68,10 @@ listtext1 = '''<option value="%s">%s</option>
 listtext2 = '''</select>
 '''
 
-
 _marker = []  # Create a new marker object.
 
 MAX_UNIQUEID_ATTEMPTS = 1000
+
 
 class ExhaustedUniqueIdsError (Exception):
     pass
@@ -87,12 +84,11 @@ class BTreeFolder2Base (Persistent):
     security = ClassSecurityInfo()
 
     manage_options=(
-        ({'label':'Contents', 'action':'manage_main',},
+        ({'label': 'Contents', 'action': 'manage_main'},
          ) + Folder.manage_options[1:]
         )
 
-    security.declareProtected(view_management_screens,
-                              'manage_main')
+    security.declareProtected(view_management_screens, 'manage_main')
     manage_main = DTMLFile('contents', globals())
 
     _tree = None      # OOBTree: { id -> object }
@@ -411,8 +407,8 @@ class BTreeFolder2Base (Persistent):
 
     def _checkId(self, id, allow_dup=0):
         if not allow_dup and self.has_key(id):
-            raise BadRequestException, ('The id "%s" is invalid--'
-                                        'it is already in use.' % id)
+            raise BadRequestException('The id "%s" is invalid--'
+                                      'it is already in use.' % id)
 
 
     def _setObject(self, id, object, roles=None, user=None, set_owner=1,
@@ -517,7 +513,7 @@ class BTreeFolder2Base (Persistent):
         # Oh well.
         res = self._tree.get(name)
         if res is None:
-            raise AttributeError, name
+            raise AttributeError(name)
         return res
 
 
@@ -532,7 +528,6 @@ class BTreeFolder2 (BTreeFolder2Base, Folder):
     def _checkId(self, id, allow_dup=0):
         Folder._checkId(self, id, allow_dup)
         BTreeFolder2Base._checkId(self, id, allow_dup)
-    
+
 
 InitializeClass(BTreeFolder2)
-

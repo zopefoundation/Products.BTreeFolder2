@@ -12,19 +12,16 @@
 #
 ##############################################################################
 """Unit tests for BTreeFolder2.
-
-$Id: testBTreeFolder2.py,v 1.8 2004/03/15 20:31:40 shane Exp $
 """
 
 import unittest
-import ZODB
-import Testing
-import Zope2
-from Products.BTreeFolder2.BTreeFolder2 \
-     import BTreeFolder2, ExhaustedUniqueIdsError
+
 from OFS.ObjectManager import BadRequestException
 from OFS.Folder import Folder
 from Acquisition import aq_base
+
+from Products.BTreeFolder2.BTreeFolder2 import BTreeFolder2
+from Products.BTreeFolder2.BTreeFolder2 import ExhaustedUniqueIdsError
 
 
 class BTreeFolder2Tests(unittest.TestCase):
@@ -65,7 +62,7 @@ class BTreeFolder2Tests(unittest.TestCase):
         mt1 = self.ff.meta_type
         mt2 = Folder.meta_type
         self.assertEqual(list(self.f.objectIds(mt1)), ['item'])
-        self.assertEqual(list(self.f.objectIds((mt1,))), ['item'])
+        self.assertEqual(list(self.f.objectIds((mt1, ))), ['item'])
         self.assertEqual(list(self.f.objectIds(mt2)), ['subfolder'])
         lst = list(self.f.objectIds([mt1, mt2]))
         lst.sort()
@@ -90,7 +87,7 @@ class BTreeFolder2Tests(unittest.TestCase):
 
     def testHasKey(self):
         self.assert_(self.f.hasObject('item'))  # Old spelling
-        self.assert_(self.f.has_key('item'))  # New spelling
+        self.assert_('item' in self.f)  # New spelling
 
     def testDelete(self):
         self.f._delOb('item')
@@ -116,7 +113,7 @@ class BTreeFolder2Tests(unittest.TestCase):
     def testSetObject(self):
         f2 = BTreeFolder2('item2')
         self.f._setObject(f2.id, f2)
-        self.assert_(self.f.has_key('item2'))
+        self.assert_('item2' in self.f)
         self.assertEqual(self.f.objectCount(), 2)
 
     def testWrapped(self):
@@ -151,7 +148,7 @@ class BTreeFolder2Tests(unittest.TestCase):
         old_f._setObject(inner_f.id, inner_f)
         self.ff._populateFromFolder(old_f)
         self.assertEqual(self.ff.objectCount(), 1)
-        self.assert_(self.ff.has_key('inner'))
+        self.assert_('inner' in self.ff)
         self.assertEqual(self.getBase(self.ff._getOb('inner')), inner_f)
 
     def testObjectListing(self):
@@ -232,6 +229,3 @@ def test_suite():
     return unittest.TestSuite((
         unittest.makeSuite(BTreeFolder2Tests),
         ))
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')
