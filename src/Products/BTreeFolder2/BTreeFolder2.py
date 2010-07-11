@@ -73,7 +73,7 @@ _marker = []  # Create a new marker object.
 MAX_UNIQUEID_ATTEMPTS = 1000
 
 
-class ExhaustedUniqueIdsError (Exception):
+class ExhaustedUniqueIdsError(Exception):
     pass
 
 
