@@ -77,7 +77,7 @@ class ExhaustedUniqueIdsError (Exception):
     pass
 
 
-class BTreeFolder2Base (Persistent):
+class BTreeFolder2Base(Persistent):
     """Base for BTree-based folders.
     """
 
@@ -97,7 +97,6 @@ class BTreeFolder2Base (Persistent):
     _mt_index = None  # OOBTree: { meta_type -> OIBTree: { id -> 1 } }
     title = ''
 
-
     def __init__(self, id=None):
         if id is not None:
             self.id = id
@@ -108,7 +107,6 @@ class BTreeFolder2Base (Persistent):
         self._count = Length()
         self._mt_index = OOBTree()
 
-
     def _populateFromFolder(self, source):
         """Fill this folder with the contents of another folder.
         """
@@ -116,7 +114,6 @@ class BTreeFolder2Base (Persistent):
             value = source._getOb(name, None)
             if value is not None:
                 self._setOb(name, aq_base(value))
-
 
     security.declareProtected(view_management_screens, 'manage_fixCount')
     def manage_fixCount(self):
@@ -130,7 +127,6 @@ class BTreeFolder2Base (Persistent):
             return ("Fixed count mismatch in BTreeFolder2 at %s. "
                     "Count was %d; corrected to %d" % (path, old, new))
 
-
     def _fixCount(self):
         """Checks if the value of self._count disagrees with
         len(self.objectIds()). If so, corrects self._count. Returns the
@@ -143,7 +139,6 @@ class BTreeFolder2Base (Persistent):
             self._count.set(new)
         return old, new
 
-
     security.declareProtected(view_management_screens, 'manage_cleanup')
     def manage_cleanup(self):
         """Calls self._cleanup() and reports the result as text.
@@ -155,7 +150,6 @@ class BTreeFolder2Base (Persistent):
         else:
             return ("Fixed BTreeFolder2 at %s.  "
                     "See the log for more details." % path)
-
 
     def _cleanup(self):
         """Cleans up errors in the BTrees.
@@ -207,7 +201,6 @@ class BTreeFolder2Base (Persistent):
                 LOG.info('Fixed %s.' % path)
             return 0
 
-
     def _getOb(self, id, default=_marker):
         """Return the named object from the folder.
         """
@@ -221,7 +214,6 @@ class BTreeFolder2Base (Persistent):
                 return default
             else:
                 return ob.__of__(self)
-
 
     def _setOb(self, id, object):
         """Store the named object in the folder.
@@ -241,7 +233,6 @@ class BTreeFolder2Base (Persistent):
                 mti[meta_type] = ids
             ids[id] = 1
 
-
     def _delOb(self, id):
         """Remove the named object from the folder.
         """
@@ -259,7 +250,6 @@ class BTreeFolder2Base (Persistent):
                     # Removed the last object of this meta_type.
                     # Prune the index.
                     del mti[meta_type]
-
 
     security.declareProtected(view_management_screens, 'getBatchObjectListing')
     def getBatchObjectListing(self, REQUEST=None):
@@ -297,7 +287,6 @@ class BTreeFolder2Base (Persistent):
                 'next_batch_url': next_url,
                 'formatted_list': ''.join(formatted)}
 
-
     security.declareProtected(view_management_screens,
                               'manage_object_workspace')
     def manage_object_workspace(self, ids=(), REQUEST=None):
@@ -310,7 +299,6 @@ class BTreeFolder2Base (Persistent):
         else:
             return self.manage_main(self, REQUEST)
 
-
     security.declareProtected(access_contents_information,
                               'tpValues')
     def tpValues(self):
@@ -318,13 +306,10 @@ class BTreeFolder2Base (Persistent):
         """
         return ()
 
-
-    security.declareProtected(access_contents_information,
-                              'objectCount')
+    security.declareProtected(access_contents_information, 'objectCount')
     def objectCount(self):
         """Returns the number of items in the folder."""
         return self._count()
-
 
     security.declareProtected(access_contents_information, 'has_key')
     def has_key(self, id):
@@ -332,9 +317,7 @@ class BTreeFolder2Base (Persistent):
         """
         return self._tree.has_key(id)
 
-
-    security.declareProtected(access_contents_information,
-                              'objectIds')
+    security.declareProtected(access_contents_information, 'objectIds')
     def objectIds(self, spec=None):
         # Returns a list of subobject ids of the current object.
         # If 'spec' is specified, returns objects whose meta_type
@@ -356,18 +339,14 @@ class BTreeFolder2Base (Persistent):
         else:
             return set.keys()
 
-
-    security.declareProtected(access_contents_information,
-                              'objectValues')
+    security.declareProtected(access_contents_information, 'objectValues')
     def objectValues(self, spec=None):
         # Returns a list of actual subobjects of the current object.
         # If 'spec' is specified, returns only objects whose meta_type
         # match 'spec'.
         return LazyMap(self._getOb, self.objectIds(spec))
 
-
-    security.declareProtected(access_contents_information,
-                              'objectItems')
+    security.declareProtected(access_contents_information, 'objectItems')
     def objectItems(self, spec=None):
         # Returns a list of (id, subobject) tuples of the current object.
         # If 'spec' is specified, returns only objects whose meta_type match
@@ -375,9 +354,7 @@ class BTreeFolder2Base (Persistent):
         return LazyMap(lambda id, _getOb=self._getOb: (id, _getOb(id)),
                        self.objectIds(spec))
 
-
-    security.declareProtected(access_contents_information,
-                              'objectMap')
+    security.declareProtected(access_contents_information, 'objectMap')
     def objectMap(self):
         # Returns a tuple of mappings containing subobject meta-data.
         return LazyMap(lambda (k, v):
@@ -388,9 +365,7 @@ class BTreeFolder2Base (Persistent):
     # would be inefficient, so superValues() support is disabled.
     _objects = ()
 
-
-    security.declareProtected(access_contents_information,
-                              'objectIds_d')
+    security.declareProtected(access_contents_information, 'objectIds_d')
     def objectIds_d(self, t=None):
         ids = self.objectIds(t)
         res = {}
@@ -398,18 +373,14 @@ class BTreeFolder2Base (Persistent):
             res[id] = 1
         return res
 
-
-    security.declareProtected(access_contents_information,
-                              'objectMap_d')
+    security.declareProtected(access_contents_information, 'objectMap_d')
     def objectMap_d(self, t=None):
         return self.objectMap()
-
 
     def _checkId(self, id, allow_dup=0):
         if not allow_dup and self.has_key(id):
             raise BadRequestException('The id "%s" is invalid--'
                                       'it is already in use.' % id)
-
 
     def _setObject(self, id, object, roles=None, user=None, set_owner=1,
                    suppress_events=False):
@@ -450,7 +421,6 @@ class BTreeFolder2Base (Persistent):
 
         return id
 
-
     def _delObject(self, id, dp=1, suppress_events=False):
         ob = self._getOb(id)
 
@@ -465,7 +435,6 @@ class BTreeFolder2Base (Persistent):
             notify(ObjectRemovedEvent(ob, self, id))
             notifyContainerModified(self)
 
-
     # Aliases for mapping-like access.
     __len__ = objectCount
     keys = objectIds
@@ -478,7 +447,6 @@ class BTreeFolder2Base (Persistent):
     security.declareProtected(access_contents_information, 'get')
     def get(self, name, default=None):
         return self._getOb(name, default)
-
 
     # Utility for generating unique IDs.
 
