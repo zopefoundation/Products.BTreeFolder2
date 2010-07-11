@@ -345,6 +345,10 @@ class BTreeFolder2Base(Persistent):
         else:
             return set.keys()
 
+    security.declareProtected(access_contents_information, 'keys')
+    def keys(self):
+        return self._tree.keys()
+
     def __contains__(self, name):
         return name in self._tree
 
@@ -358,6 +362,10 @@ class BTreeFolder2Base(Persistent):
         # match 'spec'.
         return LazyMap(self._getOb, self.objectIds(spec))
 
+    security.declareProtected(access_contents_information, 'values')
+    def values(self):
+        return self._tree.values()
+
     security.declareProtected(access_contents_information, 'objectItems')
     def objectItems(self, spec=None):
         # Returns a list of (id, subobject) tuples of the current object.
@@ -365,6 +373,10 @@ class BTreeFolder2Base(Persistent):
         # 'spec'
         return LazyMap(lambda id, _getOb=self._getOb: (id, _getOb(id)),
                        self.objectIds(spec))
+
+    security.declareProtected(access_contents_information, 'items')
+    def items(self):
+        return self._tree.items()
 
     security.declareProtected(access_contents_information, 'objectMap')
     def objectMap(self):
@@ -452,11 +464,6 @@ class BTreeFolder2Base(Persistent):
 
     def __delitem__(self, name):
         return self._delObject(id=name)
-
-    # Aliases for mapping-like access.
-    keys = objectIds
-    values = objectValues
-    items = objectItems
 
     # backward compatibility
     hasObject = has_key

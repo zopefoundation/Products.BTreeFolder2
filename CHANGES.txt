@@ -4,6 +4,10 @@ Changelog
 2.13.0 (unreleased)
 -------------------
 
+- Change implementation of `keys`, `items` and `values` method to access the
+  `self._tree` OOBTree methods directly. This avoids lookups in the meta_types
+  structures.
+
 - Implement the full dictionary protocol including `__getitem__`,
   `__delitem__`, `__setitem__`, `__nonzero__`, `__iter__` and `__contains__`.
 
