@@ -15,7 +15,7 @@
 from setuptools import setup, find_packages
 
 setup(name='Products.BTreeFolder2',
-      version = '2.13.0dev',
+      version = '2.13.0',
       url='http://pypi.python.org/pypi/Products.BTreeFolder2',
       license='ZPL 2.1',
       description="",
