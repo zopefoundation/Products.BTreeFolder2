@@ -97,6 +97,10 @@ class BTreeFolder2Base(Persistent):
     _mt_index = None  # OOBTree: { meta_type -> OIBTree: { id -> 1 } }
     title = ''
 
+    # superValues() looks for the _objects attribute, but the implementation
+    # would be inefficient, so superValues() support is disabled.
+    _objects = ()
+
     def __init__(self, id=None):
         if id is not None:
             self.id = id
@@ -215,6 +219,23 @@ class BTreeFolder2Base(Persistent):
             else:
                 return ob.__of__(self)
 
+    security.declareProtected(access_contents_information, 'get')
+    def get(self, name, default=None):
+        return self._getOb(name, default)
+
+    def __getitem__(self, name):
+        return self._getOb(name)
+
+    def __getattr__(self, name):
+        # Boo hoo hoo!  Zope 2 prefers implicit acquisition over traversal
+        # to subitems, and __bobo_traverse__ hooks don't work with
+        # restrictedTraverse() unless __getattr__() is also present.
+        # Oh well.
+        res = self._tree.get(name)
+        if res is None:
+            raise AttributeError(name)
+        return res
+
     def _setOb(self, id, object):
         """Store the named object in the folder.
         """
@@ -299,8 +320,7 @@ class BTreeFolder2Base(Persistent):
         else:
             return self.manage_main(self, REQUEST)
 
-    security.declareProtected(access_contents_information,
-                              'tpValues')
+    security.declareProtected(access_contents_information, 'tpValues')
     def tpValues(self):
         """Ensures the items don't show up in the left pane.
         """
@@ -322,6 +342,9 @@ class BTreeFolder2Base(Persistent):
         """Indicates whether the folder has an item by ID.
         """
         return id in self._tree
+
+    # backward compatibility
+    hasObject = has_key
 
     security.declareProtected(access_contents_information, 'objectIds')
     def objectIds(self, spec=None):
@@ -389,10 +412,6 @@ class BTreeFolder2Base(Persistent):
         return LazyMap(lambda (k, v):
                        {'id': k, 'meta_type': getattr(v, 'meta_type', None)},
                        self._tree.items(), self._count())
-
-    # superValues() looks for the _objects attribute, but the implementation
-    # would be inefficient, so superValues() support is disabled.
-    _objects = ()
 
     security.declareProtected(access_contents_information, 'objectIds_d')
     def objectIds_d(self, t=None):
@@ -470,16 +489,6 @@ class BTreeFolder2Base(Persistent):
     def __delitem__(self, name):
         return self._delObject(id=name)
 
-    # backward compatibility
-    hasObject = has_key
-
-    security.declareProtected(access_contents_information, 'get')
-    def get(self, name, default=None):
-        return self._getOb(name, default)
-
-    def __getitem__(self, name):
-        return self._getOb(name)
-
     # Utility for generating unique IDs.
 
     security.declareProtected(access_contents_information, 'generateId')
@@ -505,17 +514,6 @@ class BTreeFolder2Base(Persistent):
                 raise ExhaustedUniqueIdsError
         self._v_nextid = n + 1
         return id
-
-    def __getattr__(self, name):
-        # Boo hoo hoo!  Zope 2 prefers implicit acquisition over traversal
-        # to subitems, and __bobo_traverse__ hooks don't work with
-        # restrictedTraverse() unless __getattr__() is also present.
-        # Oh well.
-        res = self._tree.get(name)
-        if res is None:
-            raise AttributeError(name)
-        return res
-
 
 InitializeClass(BTreeFolder2Base)
 
