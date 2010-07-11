@@ -311,6 +311,12 @@ class BTreeFolder2Base(Persistent):
         """Returns the number of items in the folder."""
         return self._count()
 
+    def __len__(self):
+        return self.objectCount()
+
+    def __nonzero__(self):
+        return True
+
     security.declareProtected(access_contents_information, 'has_key')
     def has_key(self, id):
         """Indicates whether the folder has an item by ID.
@@ -338,6 +344,12 @@ class BTreeFolder2Base(Persistent):
             return ()
         else:
             return set.keys()
+
+    def __contains__(self, name):
+        return name in self.objectIds()
+
+    def __iter__(self):
+        return iter(self.objectIds())
 
     security.declareProtected(access_contents_information, 'objectValues')
     def objectValues(self, spec=None):
@@ -421,6 +433,9 @@ class BTreeFolder2Base(Persistent):
 
         return id
 
+    def __setitem__(self, key, value):
+        return self._setObject(key, value)
+
     def _delObject(self, id, dp=1, suppress_events=False):
         ob = self._getOb(id)
 
@@ -435,8 +450,10 @@ class BTreeFolder2Base(Persistent):
             notify(ObjectRemovedEvent(ob, self, id))
             notifyContainerModified(self)
 
+    def __delitem__(self, name):
+        return self._delObject(id=name)
+
     # Aliases for mapping-like access.
-    __len__ = objectCount
     keys = objectIds
     values = objectValues
     items = objectItems
@@ -447,6 +464,9 @@ class BTreeFolder2Base(Persistent):
     security.declareProtected(access_contents_information, 'get')
     def get(self, name, default=None):
         return self._getOb(name, default)
+
+    def __getitem__(self, name):
+        return self._getOb(name)
 
     # Utility for generating unique IDs.
 
