@@ -321,7 +321,7 @@ class BTreeFolder2Base(Persistent):
     def has_key(self, id):
         """Indicates whether the folder has an item by ID.
         """
-        return self._tree.has_key(id)
+        return id in self._tree
 
     security.declareProtected(access_contents_information, 'objectIds')
     def objectIds(self, spec=None):
@@ -346,7 +346,7 @@ class BTreeFolder2Base(Persistent):
             return set.keys()
 
     def __contains__(self, name):
-        return name in self.objectIds()
+        return name in self._tree
 
     def __iter__(self):
         return iter(self.objectIds())
