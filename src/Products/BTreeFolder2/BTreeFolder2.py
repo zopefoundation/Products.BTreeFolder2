@@ -167,19 +167,19 @@ class BTreeFolder2Base(Persistent):
         try:
             check(self._tree)
             for key in self._tree.keys():
-                if not self._tree.has_key(key):
+                if key not in self._tree:
                     raise AssertionError(
                         "Missing value for key: %s" % repr(key))
             check(self._mt_index)
             for key, value in self._mt_index.items():
-                if (not self._mt_index.has_key(key)
+                if (key not in self._mt_index
                     or self._mt_index[key] is not value):
                     raise AssertionError(
                         "Missing or incorrect meta_type index: %s"
                         % repr(key))
                 check(value)
                 for k in value.keys():
-                    if not value.has_key(k):
+                    if k not in value:
                         raise AssertionError(
                             "Missing values for meta_type index: %s"
                             % repr(key))
@@ -219,7 +219,7 @@ class BTreeFolder2Base(Persistent):
         """Store the named object in the folder.
         """
         tree = self._tree
-        if tree.has_key(id):
+        if id in tree:
             raise KeyError('There is already an item named "%s".' % id)
         tree[id] = object
         self._count.change(1)
@@ -244,7 +244,7 @@ class BTreeFolder2Base(Persistent):
         if meta_type is not None:
             mti = self._mt_index
             ids = mti.get(meta_type, None)
-            if ids is not None and ids.has_key(id):
+            if ids is not None and id in ids:
                 del ids[id]
                 if not ids:
                     # Removed the last object of this meta_type.
@@ -390,7 +390,7 @@ class BTreeFolder2Base(Persistent):
         return self.objectMap()
 
     def _checkId(self, id, allow_dup=0):
-        if not allow_dup and self.has_key(id):
+        if not allow_dup and id in self:
             raise BadRequestException('The id "%s" is invalid--'
                                       'it is already in use.' % id)
 
@@ -402,7 +402,7 @@ class BTreeFolder2Base(Persistent):
             id = v
 
         # If an object by the given id already exists, remove it.
-        if self.has_key(id):
+        if id in self:
             self._delObject(id)
 
         if not suppress_events:
@@ -484,7 +484,7 @@ class BTreeFolder2Base(Persistent):
         while 1:
             if n % 4000 != 0 and n <= rand_ceiling:
                 id = '%s%d%s' % (prefix, n, suffix)
-                if not tree.has_key(id):
+                if id not in tree:
                     break
             n = randint(1, rand_ceiling)
             attempt = attempt + 1
