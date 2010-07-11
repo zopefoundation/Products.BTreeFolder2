@@ -39,19 +39,37 @@ class BTreeFolder2Tests(unittest.TestCase):
     def testAdded(self):
         self.assertEqual(self.ff.id, 'item')
 
+    def testSetItem(self):
+        self.f['ff2'] = BTreeFolder2('item2')
+        self.assertEqual(self.f.ff2.id, 'item2')
+
     def testCount(self):
         self.assertEqual(self.f.objectCount(), 1)
         self.assertEqual(self.ff.objectCount(), 0)
+
+    def testLen(self):
         self.assertEqual(len(self.f), 1)
         self.assertEqual(len(self.ff), 0)
 
+    def testNonZero(self):
+        self.assertEqual(bool(self.f), True)
+        self.assertEqual(bool(self.ff), True)
+
     def testObjectIds(self):
         self.assertEqual(list(self.f.objectIds()), ['item'])
-        self.assertEqual(list(self.f.keys()), ['item'])
         self.assertEqual(list(self.ff.objectIds()), [])
         f3 = BTreeFolder2('item3')
         self.f._setOb(f3.id, f3)
         lst = list(self.f.objectIds())
+        lst.sort()
+        self.assertEqual(lst, ['item', 'item3'])
+
+    def testKeys(self):
+        self.assertEqual(list(self.f.keys()), ['item'])
+        self.assertEqual(list(self.ff.keys()), [])
+        f3 = BTreeFolder2('item3')
+        self.f[f3.id] = f3
+        lst = list(self.f.keys())
         lst.sort()
         self.assertEqual(lst, ['item', 'item3'])
 
@@ -75,6 +93,11 @@ class BTreeFolder2Tests(unittest.TestCase):
         self.assertEqual(values[0].id, 'item')
         self.assert_(values[0] is self.getBase(values[0]))
 
+    def testValues(self):
+        values = self.f.values()
+        self.assertEqual(len(values), 1)
+        self.assertEqual(values[0].id, 'item')
+
     def testObjectItems(self):
         items = self.f.objectItems()
         self.assertEqual(len(items), 1)
@@ -83,14 +106,35 @@ class BTreeFolder2Tests(unittest.TestCase):
         self.assertEqual(val.id, 'item')
         self.assert_(val is self.getBase(val))
 
+    def testItems(self):
+        items = self.f.items()
+        self.assertEqual(len(items), 1)
+        id, val = items[0]
+        self.assertEqual(id, 'item')
+        self.assertEqual(val.id, 'item')
+
     def testHasKey(self):
         self.assert_(self.f.hasObject('item'))  # Old spelling
-        self.assert_('item' in self.f)  # New spelling
+        self.assert_(self.f.has_key('item'))  # New spelling
+
+    def testContains(self):
+        self.assert_('item' in self.f)
 
     def testDelete(self):
         self.f._delOb('item')
         self.assertEqual(list(self.f.objectIds()), [])
         self.assertEqual(self.f.objectCount(), 0)
+
+    def testDelItem(self):
+        del self.f['item']
+        self.assert_('item' not in self.f)
+        self.assertEqual(len(self.f), 0)
+
+    def testIter(self):
+        iterator = iter(self.f)
+        first = iterator.next()
+        self.assertEquals(first, 'item')
+        self.assertRaises(StopIteration, iterator.next)
 
     def testObjectMap(self):
         map = self.f.objectMap()
