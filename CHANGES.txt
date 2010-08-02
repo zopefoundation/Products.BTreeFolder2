@@ -4,6 +4,8 @@ Changelog
 2.13.1 (unreleased)
 -------------------
 
+- Be more careful in calling our own keys, values and items methods, as
+  sub-classes might have overridden some of them.
 
 2.13.0 (2010-07-11)
 -------------------
