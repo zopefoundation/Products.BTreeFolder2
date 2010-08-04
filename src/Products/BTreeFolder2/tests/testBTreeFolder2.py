@@ -91,7 +91,7 @@ class BTreeFolder2Tests(unittest.TestCase):
         values = self.f.objectValues()
         self.assertEqual(len(values), 1)
         self.assertEqual(values[0].id, 'item')
-        self.assert_(values[0] is self.getBase(values[0]))
+        self.assert_(values[0].aq_parent is self.f)
 
     def testValues(self):
         values = self.f.values()
@@ -104,7 +104,7 @@ class BTreeFolder2Tests(unittest.TestCase):
         id, val = items[0]
         self.assertEqual(id, 'item')
         self.assertEqual(val.id, 'item')
-        self.assert_(val is self.getBase(val))
+        self.assert_(val.aq_parent is self.f)
 
     def testItems(self):
         items = self.f.items()
