@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.13.1 (unreleased)
+2.13.1 (2010-08-04)
 -------------------
 
 - Make sure that methods returning objects return them Acquisition wrapped.
