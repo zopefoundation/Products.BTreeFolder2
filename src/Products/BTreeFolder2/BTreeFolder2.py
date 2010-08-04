@@ -385,12 +385,12 @@ class BTreeFolder2Base(Persistent):
         # If 'spec' is specified, returns only objects whose meta_type
         # match 'spec'.
         if spec is None:
-            return self._tree.values()
+            return LazyMap(self._getOb, self._tree.keys())
         return LazyMap(self._getOb, self.objectIds(spec))
 
     security.declareProtected(access_contents_information, 'values')
     def values(self):
-        return self._tree.values()
+        return LazyMap(self._getOb, self._tree.keys())
 
     security.declareProtected(access_contents_information, 'objectItems')
     def objectItems(self, spec=None):
@@ -398,13 +398,15 @@ class BTreeFolder2Base(Persistent):
         # If 'spec' is specified, returns only objects whose meta_type match
         # 'spec'
         if spec is None:
-            return self._tree.items()
+            return LazyMap(lambda id, _getOb=self._getOb: (id, _getOb(id)),
+                           self._tree.keys())
         return LazyMap(lambda id, _getOb=self._getOb: (id, _getOb(id)),
                        self.objectIds(spec))
 
     security.declareProtected(access_contents_information, 'items')
     def items(self):
-        return self._tree.items()
+        return LazyMap(lambda id, _getOb=self._getOb: (id, _getOb(id)),
+                       self._tree.keys())
 
     security.declareProtected(access_contents_information, 'objectMap')
     def objectMap(self):

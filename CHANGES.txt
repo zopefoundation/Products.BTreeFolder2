@@ -4,6 +4,8 @@ Changelog
 2.13.1 (unreleased)
 -------------------
 
+- Make sure that methods returning objects return them Acquisition wrapped.
+
 - Be more careful in calling our own keys, values and items methods, as
   sub-classes might have overridden some of them.
 
