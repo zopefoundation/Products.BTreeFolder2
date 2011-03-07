@@ -4,6 +4,9 @@ Changelog
 2.13.2 (unreleased)
 -------------------
 
+- `objectValues` and `objectItems` no longer do a special handling when no
+  special `spec` is requested as `objectIds` already does the correct handling.
+
 
 2.13.1 (2010-08-04)
 -------------------
