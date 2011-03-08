@@ -384,8 +384,6 @@ class BTreeFolder2Base(Persistent):
         # Returns a list of actual subobjects of the current object.
         # If 'spec' is specified, returns only objects whose meta_type
         # match 'spec'.
-        if spec is None:
-            return LazyMap(self._getOb, self._tree.keys())
         return LazyMap(self._getOb, self.objectIds(spec))
 
     security.declareProtected(access_contents_information, 'values')
@@ -397,9 +395,6 @@ class BTreeFolder2Base(Persistent):
         # Returns a list of (id, subobject) tuples of the current object.
         # If 'spec' is specified, returns only objects whose meta_type match
         # 'spec'
-        if spec is None:
-            return LazyMap(lambda id, _getOb=self._getOb: (id, _getOb(id)),
-                           self._tree.keys())
         return LazyMap(lambda id, _getOb=self._getOb: (id, _getOb(id)),
                        self.objectIds(spec))
 
