@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.13.2 (unreleased)
+2.13.2 (2011-03-08)
 -------------------
 
 - `objectValues` and `objectItems` no longer do a special handling when no
