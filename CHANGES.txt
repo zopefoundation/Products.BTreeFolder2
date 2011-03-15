@@ -4,12 +4,17 @@ Changelog
 2.13.3 (unreleased)
 -------------------
 
+- `keys`, `values` and `items` methods are now exactly the same as
+  `objectIds`, `objectValues` and `objectItems`. They did the same before
+  already but duplicated the code.
+
 
 2.13.2 (2011-03-08)
 -------------------
 
 - `objectValues` and `objectItems` no longer do a special handling when no
-  special `spec` is requested as `objectIds` already does the correct handling.
+  special `spec` is requested as `objectIds` already does the correct
+  handling.
 
 2.13.1 (2010-08-04)
 -------------------
