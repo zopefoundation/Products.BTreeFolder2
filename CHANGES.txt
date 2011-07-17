@@ -4,7 +4,7 @@ Changelog
 2.13.4 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add some tests for correct `getattr` behavior.
 
 
 2.13.3 (2011-03-15)

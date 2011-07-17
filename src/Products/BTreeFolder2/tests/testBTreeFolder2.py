@@ -43,6 +43,15 @@ class BTreeFolder2Tests(unittest.TestCase):
         self.f['ff2'] = BTreeFolder2('item2')
         self.assertEqual(self.f.ff2.id, 'item2')
 
+    def test_getattr_found(self):
+        self.assertEqual(getattr(self.f, 'item'), self.ff)
+
+    def test_getattr_notfound(self):
+        self.assertRaises(AttributeError, getattr, self.f, 'none')
+
+    def test_getattr_default(self):
+        self.assertEqual(getattr(self.f, 'none', '1'), '1')
+
     def testCount(self):
         self.assertEqual(self.f.objectCount(), 1)
         self.assertEqual(self.ff.objectCount(), 0)
