@@ -6,6 +6,8 @@ Changelog
 
 - Add some tests for correct `getattr` behavior.
 
+- __getattr__, _getOb optimizations
+
 
 2.13.3 (2011-03-15)
 -------------------

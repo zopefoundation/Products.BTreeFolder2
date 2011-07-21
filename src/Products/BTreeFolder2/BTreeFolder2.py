@@ -208,16 +208,13 @@ class BTreeFolder2Base(Persistent):
     def _getOb(self, id, default=_marker):
         """Return the named object from the folder.
         """
-        tree = self._tree
-        if default is _marker:
-            ob = tree[id]
-            return ob.__of__(self)
-        else:
-            ob = tree.get(id, _marker)
-            if ob is _marker:
-                return default
+        try:
+            return self._tree[id].__of__(self)
+        except KeyError:
+            if default is _marker:
+                raise
             else:
-                return ob.__of__(self)
+                return default
 
     security.declareProtected(access_contents_information, 'get')
     def get(self, name, default=None):
@@ -231,10 +228,10 @@ class BTreeFolder2Base(Persistent):
         # to subitems, and __bobo_traverse__ hooks don't work with
         # restrictedTraverse() unless __getattr__() is also present.
         # Oh well.
-        res = self._tree.get(name)
-        if res is None:
+        try:
+            return self._tree[name]
+        except KeyError:
             raise AttributeError(name)
-        return res
 
     def _setOb(self, id, object):
         """Store the named object in the folder.
