@@ -4,6 +4,8 @@ Changelog
 2.13.4 (unreleased)
 -------------------
 
+- Provide security declaration for `BTreeFolder2Base.hasObject` method.
+
 - Add some tests for correct `getattr` behavior.
 
 - Minor `__getattr__` and `_getOb` optimizations.

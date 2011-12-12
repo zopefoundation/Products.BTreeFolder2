@@ -341,6 +341,7 @@ class BTreeFolder2Base(Persistent):
         return id in self._tree
 
     # backward compatibility
+    security.declareProtected(access_contents_information, 'hasObject')
     hasObject = has_key
 
     security.declareProtected(access_contents_information, 'objectIds')
