@@ -6,8 +6,7 @@ Changelog
 
 - Add some tests for correct `getattr` behavior.
 
-- __getattr__, _getOb optimizations
-
+- Minor `__getattr__` and `_getOb` optimizations.
 
 2.13.3 (2011-03-15)
 -------------------
@@ -15,7 +14,6 @@ Changelog
 - `keys`, `values` and `items` methods are now exactly the same as
   `objectIds`, `objectValues` and `objectItems`. They did the same before
   already but duplicated the code.
-
 
 2.13.2 (2011-03-08)
 -------------------
