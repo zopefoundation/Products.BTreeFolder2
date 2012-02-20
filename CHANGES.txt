@@ -4,6 +4,8 @@ Changelog
 2.13.5 (unreleased)
 -------------------
 
+- Added case for clean-up routine where the meta type index contains
+  keys that are not in the tree.
 
 2.13.4 (2011-12-12)
 -------------------

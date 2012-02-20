@@ -254,6 +254,12 @@ class BTreeFolder2Tests(unittest.TestCase):
         self.assert_(not self.f._cleanup())
         # Now it's fixed.
         self.assert_(self.f._cleanup())
+
+        from BTrees.OIBTree import OIBTree
+        tree = self.f._mt_index['d'] = OIBTree()
+        tree['e'] = 1
+        self.assert_(not self.f._cleanup())
+
         # Verify the management interface also works,
         # but don't test return values.
         self.f.manage_cleanup()

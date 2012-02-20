@@ -175,6 +175,7 @@ class BTreeFolder2Base(Persistent):
                     raise AssertionError(
                         "Missing value for key: %s" % repr(key))
             check(self._mt_index)
+            keys = set(self._tree.keys())
             for key, value in self._mt_index.items():
                 if (key not in self._mt_index
                     or self._mt_index[key] is not value):
@@ -183,7 +184,7 @@ class BTreeFolder2Base(Persistent):
                         % repr(key))
                 check(value)
                 for k in value.keys():
-                    if k not in value:
+                    if k not in value or k not in keys:
                         raise AssertionError(
                             "Missing values for meta_type index: %s"
                             % repr(key))
@@ -193,10 +194,17 @@ class BTreeFolder2Base(Persistent):
                      exc_info=sys.exc_info())
             try:
                 self._tree = OOBTree(self._tree)
+                keys = set(self._tree.keys())
                 mt_index = OOBTree()
                 for key, value in self._mt_index.items():
+                    for name in tuple(value.keys()):
+                        if name not in keys:
+                            del value[name]
                     mt_index[key] = OIBTree(value)
                 self._mt_index = mt_index
+                new = len(keys)
+                if self._count() != new:
+                    self._count.set(new)
             except:
                 LOG.error('Failed to fix %s.' % path,
                     exc_info=sys.exc_info())
