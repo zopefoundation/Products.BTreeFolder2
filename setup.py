@@ -15,7 +15,7 @@
 from setuptools import setup, find_packages
 
 setup(name='Products.BTreeFolder2',
-      version='2.13.5',
+      version='2.13.6.dev0',
       url='http://pypi.python.org/pypi/Products.BTreeFolder2',
       license='ZPL 2.1',
       description="A BTree based implementation for Zope 2's OFS.",
