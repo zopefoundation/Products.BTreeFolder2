@@ -1,7 +1,12 @@
 Changelog
 =========
 
-2.13.5 (unreleased)
+2.14 (unreleased)
+-----------------
+
+- TBD
+
+2.13.5 (2015-06-18)
 -------------------
 
 - Added case for clean-up routine where the meta type index contains
