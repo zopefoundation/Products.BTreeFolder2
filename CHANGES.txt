@@ -4,7 +4,8 @@ Changelog
 2.14.1 (unreleased)
 -------------------
 
-- TBD
+- Remove ZODB3 as direct dependency. Now we are able to use ZODB 4.0
+  and it is a dependency of Zope2 anyways
 
 2.14.0 (2015-06-18)
 -------------------
