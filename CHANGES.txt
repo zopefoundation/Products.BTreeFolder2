@@ -4,7 +4,7 @@ Changelog
 2.14.1 (unreleased)
 -------------------
 
-- TBD
+- Update Dependencies (no ZODB, but BTrees)
 
 2.14.0 (2015-06-18)
 -------------------
