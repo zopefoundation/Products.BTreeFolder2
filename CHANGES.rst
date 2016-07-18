@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.14.1 (unreleased)
--------------------
+3.0 (unreleased)
+----------------
 
 - Update Dependencies (no ZODB, but BTrees)
 
