@@ -14,11 +14,11 @@
 
 import BTreeFolder2
 
-def initialize(context):
 
+def initialize(context):
     context.registerClass(
         BTreeFolder2.BTreeFolder2,
         constructors=(BTreeFolder2.manage_addBTreeFolderForm,
                       BTreeFolder2.manage_addBTreeFolder),
         icon='btreefolder2.gif',
-        )
+    )

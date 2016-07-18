@@ -14,11 +14,12 @@
 """Unit tests for BTreeFolder2.
 """
 
+from functools import total_ordering
 import unittest
 
+from Acquisition import aq_base
 from OFS.ObjectManager import BadRequestException
 from OFS.Folder import Folder
-from Acquisition import aq_base
 
 from Products.BTreeFolder2.BTreeFolder2 import BTreeFolder2
 from Products.BTreeFolder2.BTreeFolder2 import ExhaustedUniqueIdsError
@@ -124,7 +125,7 @@ class BTreeFolder2Tests(unittest.TestCase):
 
     def testHasKey(self):
         self.assert_(self.f.hasObject('item'))  # Old spelling
-        self.assert_(self.f.has_key('item'))  # New spelling
+        self.assert_(self.f.has_key('item'))  # NOQA, New spelling
 
     def testContains(self):
         self.assert_('item' in self.f)
@@ -267,7 +268,8 @@ class BTreeFolder2Tests(unittest.TestCase):
         self.f.manage_cleanup()
 
 
-class TrojanKey:
+@total_ordering
+class TrojanKey(object):
     """Pretends to be a consistent, immutable, humble citizen...
 
     then sweeps the rug out from under the BTree.
@@ -275,14 +277,11 @@ class TrojanKey:
     def __init__(self, value):
         self.value = value
 
-    def __cmp__(self, other):
-        return cmp(self.value, other)
+    def __eq__(self, other):
+        return self.value == other
+
+    def __lt__(self, other):
+        return self.value < other
 
     def __hash__(self):
         return hash(self.value)
-
-
-def test_suite():
-    return unittest.TestSuite((
-        unittest.makeSuite(BTreeFolder2Tests),
-        ))

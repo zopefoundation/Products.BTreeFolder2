@@ -83,10 +83,10 @@ class BTreeFolder2Base(Persistent):
 
     security = ClassSecurityInfo()
 
-    manage_options=(
+    manage_options = (
         ({'label': 'Contents', 'action': 'manage_main'},
          ) + Folder.manage_options[1:]
-        )
+    )
 
     security.declareProtected(view_management_screens, 'manage_main')
     manage_main = DTMLFile('contents', globals())
@@ -177,8 +177,8 @@ class BTreeFolder2Base(Persistent):
             check(self._mt_index)
             keys = set(self._tree.keys())
             for key, value in self._mt_index.items():
-                if (key not in self._mt_index
-                    or self._mt_index[key] is not value):
+                if (key not in self._mt_index or
+                        self._mt_index[key] is not value):
                     raise AssertionError(
                         "Missing or incorrect meta_type index: %s"
                         % repr(key))
@@ -207,7 +207,7 @@ class BTreeFolder2Base(Persistent):
                     self._count.set(new)
             except:
                 LOG.error('Failed to fix %s.' % path,
-                    exc_info=sys.exc_info())
+                          exc_info=sys.exc_info())
                 raise
             else:
                 LOG.info('Fixed %s.' % path)
@@ -321,7 +321,7 @@ class BTreeFolder2Base(Persistent):
         if ids and REQUEST is not None:
             REQUEST.RESPONSE.redirect(
                 '%s/%s/manage_workspace' % (
-                self.absolute_url(), quote(ids[0])))
+                    self.absolute_url(), quote(ids[0])))
         else:
             return self.manage_main(self, REQUEST)
 
@@ -405,9 +405,12 @@ class BTreeFolder2Base(Persistent):
     security.declareProtected(access_contents_information, 'objectMap')
     def objectMap(self):
         # Returns a tuple of mappings containing subobject meta-data.
-        return LazyMap(lambda (k, v):
-                       {'id': k, 'meta_type': getattr(v, 'meta_type', None)},
-                       self._tree.items(), self._count())
+
+        def func(value):
+            k, v = value
+            return {'id': k, 'meta_type': getattr(v, 'meta_type', None)}
+
+        return LazyMap(func, self._tree.items(), self._count())
 
     security.declareProtected(access_contents_information, 'objectIds_d')
     def objectIds_d(self, t=None):
@@ -428,7 +431,7 @@ class BTreeFolder2Base(Persistent):
 
     def _setObject(self, id, object, roles=None, user=None, set_owner=1,
                    suppress_events=False):
-        ob = object # better name, keep original function signature
+        ob = object  # better name, keep original function signature
         v = self._checkId(id)
         if v is not None:
             id = v
