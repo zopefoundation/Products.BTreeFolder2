@@ -1,9 +1,10 @@
 Changelog
 =========
 
-3.0.1 (unreleased)
-------------------
+4.0 (unreleased)
+----------------
 
+- Update to require and be compatible with Zope 4.
 
 3.0 (2016-07-18)
 ----------------

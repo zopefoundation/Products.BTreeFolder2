@@ -37,7 +37,7 @@ from OFS.Folder import Folder
 from OFS.ObjectManager import BadRequestException
 from OFS.subscribers import compatibilityCall
 from Persistence import Persistent
-from Products.ZCatalog.Lazy import LazyMap
+from ZTUtils.Lazy import LazyMap
 from zope.event import notify
 from zope.lifecycleevent import ObjectAddedEvent
 from zope.lifecycleevent import ObjectRemovedEvent
