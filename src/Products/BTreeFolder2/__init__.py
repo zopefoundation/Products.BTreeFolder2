@@ -12,7 +12,7 @@
 #
 ##############################################################################
 
-import BTreeFolder2
+from Products.BTreeFolder2 import BTreeFolder2
 
 
 def initialize(context):

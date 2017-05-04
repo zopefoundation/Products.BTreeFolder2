@@ -18,7 +18,6 @@ from cgi import escape
 from logging import getLogger
 from random import randint
 import sys
-from urllib import quote
 
 from AccessControl.class_init import InitializeClass
 from AccessControl.SecurityInfo import ClassSecurityInfo
@@ -37,6 +36,7 @@ from OFS.Folder import Folder
 from OFS.ObjectManager import BadRequestException
 from OFS.subscribers import compatibilityCall
 from Persistence import Persistent
+from six.moves.urllib.parse import quote
 from ZTUtils.Lazy import LazyMap
 from zope.event import notify
 from zope.lifecycleevent import ObjectAddedEvent
