@@ -4,6 +4,8 @@ Changelog
 4.0 (unreleased)
 ----------------
 
+- Python 3 compatibility
+
 - Update to require and be compatible with Zope 4.
 
 3.0 (2016-07-18)
