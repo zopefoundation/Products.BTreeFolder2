@@ -15,6 +15,7 @@
 """
 
 from functools import total_ordering
+import six
 import unittest
 
 from Acquisition import aq_base
@@ -142,9 +143,9 @@ class BTreeFolder2Tests(unittest.TestCase):
 
     def testIter(self):
         iterator = iter(self.f)
-        first = iterator.next()
+        first = six.next(iterator)
         self.assertEquals(first, 'item')
-        self.assertRaises(StopIteration, iterator.next)
+        self.assertRaises(StopIteration, six.next, iterator)
 
     def testObjectMap(self):
         map = self.f.objectMap()
