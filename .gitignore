@@ -6,6 +6,7 @@ parts
 *.pyc
 *.pyo
 .installed.cfg
+.mr.developer.cfg
 develop-eggs/
 eggs/
 *.egg-info/
