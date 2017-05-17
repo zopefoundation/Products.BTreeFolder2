@@ -4,6 +4,8 @@ Changelog
 4.0 (unreleased)
 ----------------
 
+- added tox configuration
+
 - Python 3 compatibility
 
 - Update to require and be compatible with Zope 4.
