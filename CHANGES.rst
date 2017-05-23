@@ -1,8 +1,8 @@
 Changelog
 =========
 
-4.0 (unreleased)
-----------------
+4.0.0 (2017-05-23)
+------------------
 
 - added tox configuration
 
