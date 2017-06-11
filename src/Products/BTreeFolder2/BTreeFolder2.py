@@ -514,6 +514,7 @@ class BTreeFolder2Base(Persistent):
         self._v_nextid = n + 1
         return id
 
+
 InitializeClass(BTreeFolder2Base)
 
 
