@@ -6,6 +6,8 @@ Changelog
 
 - More PEP8 compliance.
 
+- Add icon for Bootstrap ZMI.
+
 
 4.0.0 (2017-05-23)
 ------------------
