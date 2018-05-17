@@ -49,6 +49,7 @@ setup(name='Products.BTreeFolder2',
           'Acquisition',
           'BTrees',
           'ExtensionClass>=4.1a1',
+          'future',  # for `cgi/html.escape()`
           'Persistence',
           'six',
           'Zope2 >= 4.0a5',

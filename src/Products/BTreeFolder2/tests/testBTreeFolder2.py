@@ -102,7 +102,7 @@ class BTreeFolder2Tests(unittest.TestCase):
         values = self.f.objectValues()
         self.assertEqual(len(values), 1)
         self.assertEqual(values[0].id, 'item')
-        self.assert_(values[0].aq_parent is self.f)
+        self.assertTrue(values[0].aq_parent is self.f)
 
     def testValues(self):
         values = self.f.values()
@@ -115,7 +115,7 @@ class BTreeFolder2Tests(unittest.TestCase):
         id, val = items[0]
         self.assertEqual(id, 'item')
         self.assertEqual(val.id, 'item')
-        self.assert_(val.aq_parent is self.f)
+        self.assertTrue(val.aq_parent is self.f)
 
     def testItems(self):
         items = self.f.items()
@@ -125,11 +125,11 @@ class BTreeFolder2Tests(unittest.TestCase):
         self.assertEqual(val.id, 'item')
 
     def testHasKey(self):
-        self.assert_(self.f.hasObject('item'))  # Old spelling
-        self.assert_(self.f.has_key('item'))  # NOQA, New spelling
+        self.assertTrue(self.f.hasObject('item'))  # Old spelling
+        self.assertTrue(self.f.has_key('item'))  # NOQA, New spelling
 
     def testContains(self):
-        self.assert_('item' in self.f)
+        self.assertTrue('item' in self.f)
 
     def testDelete(self):
         self.f._delOb('item')
@@ -138,13 +138,13 @@ class BTreeFolder2Tests(unittest.TestCase):
 
     def testDelItem(self):
         del self.f['item']
-        self.assert_('item' not in self.f)
+        self.assertTrue('item' not in self.f)
         self.assertEqual(len(self.f), 0)
 
     def testIter(self):
         iterator = iter(self.f)
         first = six.next(iterator)
-        self.assertEquals(first, 'item')
+        self.assertEqual(first, 'item')
         self.assertRaises(StopIteration, six.next, iterator)
 
     def testObjectMap(self):
@@ -166,16 +166,16 @@ class BTreeFolder2Tests(unittest.TestCase):
     def testSetObject(self):
         f2 = BTreeFolder2('item2')
         self.f._setObject(f2.id, f2)
-        self.assert_('item2' in self.f)
+        self.assertTrue('item2' in self.f)
         self.assertEqual(self.f.objectCount(), 2)
 
     def testWrapped(self):
         # Verify that the folder returns wrapped versions of objects.
         base = self.getBase(self.f._getOb('item'))
-        self.assert_(self.f._getOb('item') is not base)
-        self.assert_(self.f['item'] is not base)
-        self.assert_(self.f.get('item') is not base)
-        self.assert_(self.getBase(self.f._getOb('item')) is base)
+        self.assertTrue(self.f._getOb('item') is not base)
+        self.assertTrue(self.f['item'] is not base)
+        self.assertTrue(self.f.get('item') is not base)
+        self.assertTrue(self.getBase(self.f._getOb('item')) is base)
 
     def testGenerateId(self):
         ids = {}
@@ -201,7 +201,7 @@ class BTreeFolder2Tests(unittest.TestCase):
         old_f._setObject(inner_f.id, inner_f)
         self.ff._populateFromFolder(old_f)
         self.assertEqual(self.ff.objectCount(), 1)
-        self.assert_('inner' in self.ff)
+        self.assertTrue('inner' in self.ff)
         self.assertEqual(self.getBase(self.ff._getOb('inner')), inner_f)
 
     def testObjectListing(self):
@@ -214,26 +214,26 @@ class BTreeFolder2Tests(unittest.TestCase):
         self.assertEqual(info['b_end'], 2)
         self.assertEqual(info['prev_batch_url'], '')
         self.assertEqual(info['next_batch_url'], '')
-        self.assert_(info['formatted_list'].find('</select>') > 0)
-        self.assert_(info['formatted_list'].find('item') > 0)
-        self.assert_(info['formatted_list'].find('somefolder') > 0)
+        self.assertTrue(info['formatted_list'].find('</select>') > 0)
+        self.assertTrue(info['formatted_list'].find('item') > 0)
+        self.assertTrue(info['formatted_list'].find('somefolder') > 0)
 
         # Ensure batching is working.
         info = self.f.getBatchObjectListing({'b_count': 1})
         self.assertEqual(info['b_start'], 1)
         self.assertEqual(info['b_end'], 1)
         self.assertEqual(info['prev_batch_url'], '')
-        self.assert_(info['next_batch_url'] != '')
-        self.assert_(info['formatted_list'].find('item') > 0)
-        self.assert_(info['formatted_list'].find('somefolder') < 0)
+        self.assertTrue(info['next_batch_url'] != '')
+        self.assertTrue(info['formatted_list'].find('item') > 0)
+        self.assertTrue(info['formatted_list'].find('somefolder') < 0)
 
         info = self.f.getBatchObjectListing({'b_start': 2})
         self.assertEqual(info['b_start'], 2)
         self.assertEqual(info['b_end'], 2)
-        self.assert_(info['prev_batch_url'] != '')
+        self.assertTrue(info['prev_batch_url'] != '')
         self.assertEqual(info['next_batch_url'], '')
-        self.assert_(info['formatted_list'].find('item') < 0)
-        self.assert_(info['formatted_list'].find('somefolder') > 0)
+        self.assertTrue(info['formatted_list'].find('item') < 0)
+        self.assertTrue(info['formatted_list'].find('somefolder') > 0)
 
     def testObjectListingWithSpaces(self):
         # The option list must use value attributes to preserve spaces.
@@ -243,24 +243,24 @@ class BTreeFolder2Tests(unittest.TestCase):
         self.f.absolute_url = lambda: ''
         info = self.f.getBatchObjectListing()
         expect = '<option value="%s">%s</option>' % (name, name)
-        self.assert_(info['formatted_list'].find(expect) > 0)
+        self.assertTrue(info['formatted_list'].find(expect) > 0)
 
     def testCleanup(self):
-        self.assert_(self.f._cleanup())
+        self.assertTrue(self.f._cleanup())
         key = TrojanKey('a')
         self.f._tree[key] = 'b'
-        self.assert_(self.f._cleanup())
+        self.assertTrue(self.f._cleanup())
         key.value = 'z'
 
         # With a key in the wrong place, there should now be damage.
-        self.assert_(not self.f._cleanup())
+        self.assertTrue(not self.f._cleanup())
         # Now it's fixed.
-        self.assert_(self.f._cleanup())
+        self.assertTrue(self.f._cleanup())
 
         from BTrees.OIBTree import OIBTree
         tree = self.f._mt_index['d'] = OIBTree()
         tree['e'] = 1
-        self.assert_(not self.f._cleanup())
+        self.assertTrue(not self.f._cleanup())
 
         # Verify the management interface also works,
         # but don't test return values.

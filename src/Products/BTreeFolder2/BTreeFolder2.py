@@ -14,7 +14,7 @@
 """BTreeFolder2
 """
 
-from cgi import escape
+from html import escape
 from logging import getLogger
 from random import randint
 import sys
@@ -190,8 +190,8 @@ class BTreeFolder2Base(Persistent):
                             % repr(key))
             return 1
         except AssertionError:
-            LOG.warn('Detected damage to %s. Fixing now.' % path,
-                     exc_info=sys.exc_info())
+            LOG.warning('Detected damage to %s. Fixing now.' % path,
+                        exc_info=sys.exc_info())
             try:
                 self._tree = OOBTree(self._tree)
                 keys = set(self._tree.keys())
