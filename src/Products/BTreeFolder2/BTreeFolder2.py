@@ -177,8 +177,8 @@ class BTreeFolder2Base(Persistent):
             check(self._mt_index)
             keys = set(self._tree.keys())
             for key, value in self._mt_index.items():
-                if (key not in self._mt_index or
-                        self._mt_index[key] is not value):
+                if (key not in self._mt_index
+                        or self._mt_index[key] is not value):
                     raise AssertionError(
                         "Missing or incorrect meta_type index: %s"
                         % repr(key))
@@ -205,7 +205,7 @@ class BTreeFolder2Base(Persistent):
                 new = len(keys)
                 if self._count() != new:
                     self._count.set(new)
-            except:
+            except Exception:
                 LOG.error('Failed to fix %s.' % path,
                           exc_info=sys.exc_info())
                 raise
