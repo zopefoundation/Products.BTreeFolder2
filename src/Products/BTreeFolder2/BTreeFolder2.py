@@ -522,7 +522,7 @@ class BTreeFolder2 (BTreeFolder2Base, Folder):
     """BTreeFolder2 based on OFS.Folder.
     """
     meta_type = 'BTreeFolder2'
-    zmi_icon = 'icon-tree'
+    zmi_icon = 'zmi-icon-tree'
 
     def _checkId(self, id, allow_dup=0):
         Folder._checkId(self, id, allow_dup)
