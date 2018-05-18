@@ -14,7 +14,7 @@
 """BTreeFolder2
 """
 
-from cgi import escape
+from html import escape
 from logging import getLogger
 from random import randint
 import sys
@@ -177,8 +177,8 @@ class BTreeFolder2Base(Persistent):
             check(self._mt_index)
             keys = set(self._tree.keys())
             for key, value in self._mt_index.items():
-                if (key not in self._mt_index or
-                        self._mt_index[key] is not value):
+                if (key not in self._mt_index
+                        or self._mt_index[key] is not value):
                     raise AssertionError(
                         "Missing or incorrect meta_type index: %s"
                         % repr(key))
@@ -190,8 +190,8 @@ class BTreeFolder2Base(Persistent):
                             % repr(key))
             return 1
         except AssertionError:
-            LOG.warn('Detected damage to %s. Fixing now.' % path,
-                     exc_info=sys.exc_info())
+            LOG.warning('Detected damage to %s. Fixing now.' % path,
+                        exc_info=sys.exc_info())
             try:
                 self._tree = OOBTree(self._tree)
                 keys = set(self._tree.keys())
@@ -205,7 +205,7 @@ class BTreeFolder2Base(Persistent):
                 new = len(keys)
                 if self._count() != new:
                     self._count.set(new)
-            except:
+            except Exception:
                 LOG.error('Failed to fix %s.' % path,
                           exc_info=sys.exc_info())
                 raise
