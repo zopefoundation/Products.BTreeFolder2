@@ -6,6 +6,8 @@ Changelog
 
 - More PEP8 compliance.
 
+- Add icon for Bootstrap ZMI.
+
 - Avoid deprecation warnings by using current API.
 
 
