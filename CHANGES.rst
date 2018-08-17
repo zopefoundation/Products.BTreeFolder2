@@ -8,6 +8,8 @@ Changelog
 
 - Add icon for Bootstrap ZMI.
 
+- Avoid deprecation warnings by using current API.
+
 
 4.0.0 (2017-05-23)
 ------------------
