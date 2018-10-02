@@ -10,6 +10,7 @@ Changelog
 
 - Avoid deprecation warnings by using current API.
 
+- Added support for Python 3.7.
 
 4.0.0 (2017-05-23)
 ------------------
