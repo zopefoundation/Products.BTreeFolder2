@@ -17,7 +17,7 @@ install:
     - buildout bootstrap
     - buildout
 script:
-    - coverage bin/test -v1
+    - coverage run bin/test -v1
     - flake8 --doctests src setup.py
 after_success:
     - coveralls
