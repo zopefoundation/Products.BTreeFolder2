@@ -5,15 +5,22 @@ python:
     - 3.4
     - 3.5
     - 3.6
+matrix:
+    include:
+        - python: "3.7"
+          dist: xenial
+          sudo: true
 install:
-    - pip install -U setuptools==33.1.1
+    - pip install coveralls coverage
     - pip install zc.buildout
     - pip install flake8
     - buildout bootstrap
     - buildout
 script:
-    - bin/test -v1
+    - coverage bin/test -v1
     - flake8 --doctests src setup.py
+after_success:
+    - coveralls
 notifications:
     email: false
 cache:
