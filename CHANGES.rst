@@ -1,8 +1,8 @@
 Changelog
 =========
 
-4.0.1 (unreleased)
-------------------
+4.1 (2018-10-05)
+----------------
 
 - More PEP8 compliance.
 
@@ -10,7 +10,8 @@ Changelog
 
 - Avoid deprecation warnings by using current API.
 
-- Added support for Python 3.7.
+- Add support for Python 3.7.
+
 
 4.0.0 (2017-05-23)
 ------------------
