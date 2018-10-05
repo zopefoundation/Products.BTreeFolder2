@@ -3,6 +3,9 @@ include *.txt
 include *.cfg
 exclude .*.cfg
 
+include .coveragerc
+include tox.ini
+
 recursive-include src *
 
 global-exclude *.pyc
