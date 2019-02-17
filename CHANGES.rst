@@ -7,6 +7,10 @@ Changelog
 - Specify supported Python versions using ``python_requires`` in setup.py
   (`Zope#481 <https://github.com/zopefoundation/Zope/issues/481>`_)
 
+- Drop support for Python 3.4 since Zope itself does not support it.
+
+- Add support for Python 3.8
+
 
 4.1 (2018-10-05)
 ----------------
