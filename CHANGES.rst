@@ -4,7 +4,8 @@ Changelog
 4.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Specify supported Python versions using ``python_requires`` in setup.py
+  (`Zope#481 <https://github.com/zopefoundation/Zope/issues/481>`_)
 
 
 4.1 (2018-10-05)
