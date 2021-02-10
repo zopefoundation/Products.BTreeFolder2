@@ -1,0 +1,21 @@
+# Generated from:
+# https://github.com/zopefoundation/meta/tree/master/config/zope-product
+[meta]
+template = "zope-product"
+commit-id = "20e717f131ccaa1bc2dd878ba90c4be22d4c7488"
+
+[python]
+with-appveyor = false
+with-pypy = false
+with-legacy-python = true
+with-docs = false
+with-sphinx-doctests = false
+
+[coverage]
+fail-under = 89
+
+[manifest]
+additional-rules = [
+    "recursive-include src *.dtml",
+    "recursive-include src *.gif",
+    ]
