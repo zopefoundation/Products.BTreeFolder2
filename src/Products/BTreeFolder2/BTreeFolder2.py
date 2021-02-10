@@ -14,16 +14,18 @@
 """BTreeFolder2
 """
 
+import sys
 from html import escape
 from logging import getLogger
 from random import randint
-import sys
+
+from six.moves.urllib.parse import quote
 
 from AccessControl.class_init import InitializeClass
-from AccessControl.SecurityInfo import ClassSecurityInfo
-from AccessControl.SecurityManagement import getSecurityManager
 from AccessControl.Permissions import access_contents_information
 from AccessControl.Permissions import view_management_screens
+from AccessControl.SecurityInfo import ClassSecurityInfo
+from AccessControl.SecurityManagement import getSecurityManager
 from Acquisition import aq_base
 from App.special_dtml import DTMLFile
 from BTrees.Length import Length
@@ -36,12 +38,11 @@ from OFS.Folder import Folder
 from OFS.ObjectManager import BadRequestException
 from OFS.subscribers import compatibilityCall
 from Persistence import Persistent
-from six.moves.urllib.parse import quote
-from ZTUtils.Lazy import LazyMap
+from zope.container.contained import notifyContainerModified
 from zope.event import notify
 from zope.lifecycleevent import ObjectAddedEvent
 from zope.lifecycleevent import ObjectRemovedEvent
-from zope.container.contained import notifyContainerModified
+from ZTUtils.Lazy import LazyMap
 
 
 LOG = getLogger('BTreeFolder2')
@@ -119,10 +120,9 @@ class BTreeFolder2Base(Persistent):
             if value is not None:
                 self._setOb(name, aq_base(value))
 
-    security.declareProtected(view_management_screens, 'manage_fixCount')
+    @security.protected(view_management_screens)
     def manage_fixCount(self):
-        """Calls self._fixCount() and reports the result as text.
-        """
+        """Call self._fixCount() and reports the result as text."""
         old, new = self._fixCount()
         path = '/'.join(self.getPhysicalPath())
         if old == new:
@@ -143,10 +143,9 @@ class BTreeFolder2Base(Persistent):
             self._count.set(new)
         return old, new
 
-    security.declareProtected(view_management_screens, 'manage_cleanup')
+    @security.protected(view_management_screens)
     def manage_cleanup(self):
-        """Calls self._cleanup() and reports the result as text.
-        """
+        """Call self._cleanup() and reports the result as text."""
         v = self._cleanup()
         path = '/'.join(self.getPhysicalPath())
         if v:
@@ -224,7 +223,7 @@ class BTreeFolder2Base(Persistent):
             else:
                 return default
 
-    security.declareProtected(access_contents_information, 'get')
+    @security.protected(access_contents_information)
     def get(self, name, default=None):
         return self._getOb(name, default)
 
@@ -277,7 +276,7 @@ class BTreeFolder2Base(Persistent):
                     # Prune the index.
                     del mti[meta_type]
 
-    security.declareProtected(view_management_screens, 'getBatchObjectListing')
+    @security.protected(view_management_screens)
     def getBatchObjectListing(self, REQUEST=None):
         """Return a structure for a page template to show the list of objects.
         """
@@ -313,11 +312,9 @@ class BTreeFolder2Base(Persistent):
                 'next_batch_url': next_url,
                 'formatted_list': ''.join(formatted)}
 
-    security.declareProtected(view_management_screens,
-                              'manage_object_workspace')
+    @security.protected(view_management_screens)
     def manage_object_workspace(self, ids=(), REQUEST=None):
-        '''Redirects to the workspace of the first object in
-        the list.'''
+        """Redirect to the workspace of the first object in the list."""
         if ids and REQUEST is not None:
             REQUEST.RESPONSE.redirect(
                 '%s/%s/manage_workspace' % (
@@ -325,15 +322,14 @@ class BTreeFolder2Base(Persistent):
         else:
             return self.manage_main(self, REQUEST)
 
-    security.declareProtected(access_contents_information, 'tpValues')
+    @security.protected(access_contents_information)
     def tpValues(self):
-        """Ensures the items don't show up in the left pane.
-        """
+        """Ensure the items don't show up in the left pane."""
         return ()
 
-    security.declareProtected(access_contents_information, 'objectCount')
+    @security.protected(access_contents_information)
     def objectCount(self):
-        """Returns the number of items in the folder."""
+        """Return the number of items in the folder."""
         return self._count()
 
     def __len__(self):
@@ -342,17 +338,16 @@ class BTreeFolder2Base(Persistent):
     def __nonzero__(self):
         return True
 
-    security.declareProtected(access_contents_information, 'has_key')
+    @security.protected(access_contents_information)
     def has_key(self, id):
-        """Indicates whether the folder has an item by ID.
-        """
+        """Indicate whether the folder has an item by ID."""
         return id in self._tree
 
     # backward compatibility
     security.declareProtected(access_contents_information, 'hasObject')
     hasObject = has_key
 
-    security.declareProtected(access_contents_information, 'objectIds')
+    @security.protected(access_contents_information)
     def objectIds(self, spec=None):
         # Returns a list of subobject ids of the current object.
         # If 'spec' is specified, returns objects whose meta_type
@@ -381,14 +376,14 @@ class BTreeFolder2Base(Persistent):
     def __iter__(self):
         return iter(self.objectIds())
 
-    security.declareProtected(access_contents_information, 'objectValues')
+    @security.protected(access_contents_information)
     def objectValues(self, spec=None):
         # Returns a list of actual subobjects of the current object.
         # If 'spec' is specified, returns only objects whose meta_type
         # match 'spec'.
         return LazyMap(self._getOb, self.objectIds(spec))
 
-    security.declareProtected(access_contents_information, 'objectItems')
+    @security.protected(access_contents_information)
     def objectItems(self, spec=None):
         # Returns a list of (id, subobject) tuples of the current object.
         # If 'spec' is specified, returns only objects whose meta_type match
@@ -402,7 +397,7 @@ class BTreeFolder2Base(Persistent):
     values = objectValues
     items = objectItems
 
-    security.declareProtected(access_contents_information, 'objectMap')
+    @security.protected(access_contents_information)
     def objectMap(self):
         # Returns a tuple of mappings containing subobject meta-data.
 
@@ -412,7 +407,7 @@ class BTreeFolder2Base(Persistent):
 
         return LazyMap(func, self._tree.items(), self._count())
 
-    security.declareProtected(access_contents_information, 'objectIds_d')
+    @security.protected(access_contents_information)
     def objectIds_d(self, t=None):
         ids = self.objectIds(t)
         res = {}
@@ -420,7 +415,7 @@ class BTreeFolder2Base(Persistent):
             res[id] = 1
         return res
 
-    security.declareProtected(access_contents_information, 'objectMap_d')
+    @security.protected(access_contents_information)
     def objectMap_d(self, t=None):
         return self.objectMap()
 
@@ -490,7 +485,7 @@ class BTreeFolder2Base(Persistent):
 
     # Utility for generating unique IDs.
 
-    security.declareProtected(access_contents_information, 'generateId')
+    @security.protected(access_contents_information)
     def generateId(self, prefix='item', suffix='', rand_ceiling=999999999):
         """Returns an ID not used yet by this folder.
 
@@ -501,7 +496,7 @@ class BTreeFolder2Base(Persistent):
         tree = self._tree
         n = self._v_nextid
         attempt = 0
-        while 1:
+        while True:
             if n % 4000 != 0 and n <= rand_ceiling:
                 id = '%s%d%s' % (prefix, n, suffix)
                 if id not in tree:
