@@ -124,7 +124,9 @@ class BTreeFolder2Tests(unittest.TestCase):
 
     def testHasKey(self):
         self.assertTrue(self.f.hasObject('item'))  # Old spelling
-        self.assertTrue('item' in self.f)  # NOQA, New spelling
+        self.assertTrue(  # Another old spelling
+            self.f.has_key('item'))  # noqa: W601 .has_key() is deprecated
+        self.assertIn('item', self.f)  # Current spelling
 
     def testContains(self):
         self.assertTrue('item' in self.f)
