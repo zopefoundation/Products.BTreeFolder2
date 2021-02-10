@@ -6,6 +6,9 @@ Changelog
 
 - Add support for Python 3.9
 
+- Modernize the ZMI template to match the Zope 4 styles
+  (`#10 <https://github.com/zopefoundation/Products.BTreeFolder2/issues/10>`_)
+
 
 4.2 (2019-03-08)
 ----------------
