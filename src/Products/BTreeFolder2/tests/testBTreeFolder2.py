@@ -14,13 +14,14 @@
 """Unit tests for BTreeFolder2.
 """
 
-from functools import total_ordering
-import six
 import unittest
+from functools import total_ordering
+
+import six
 
 from Acquisition import aq_base
-from OFS.ObjectManager import BadRequestException
 from OFS.Folder import Folder
+from OFS.ObjectManager import BadRequestException
 
 from Products.BTreeFolder2.BTreeFolder2 import BTreeFolder2
 from Products.BTreeFolder2.BTreeFolder2 import ExhaustedUniqueIdsError
@@ -71,8 +72,7 @@ class BTreeFolder2Tests(unittest.TestCase):
         self.assertEqual(list(self.ff.objectIds()), [])
         f3 = BTreeFolder2('item3')
         self.f._setOb(f3.id, f3)
-        lst = list(self.f.objectIds())
-        lst.sort()
+        lst = sorted(self.f.objectIds())
         self.assertEqual(lst, ['item', 'item3'])
 
     def testKeys(self):
@@ -80,8 +80,7 @@ class BTreeFolder2Tests(unittest.TestCase):
         self.assertEqual(list(self.ff.keys()), [])
         f3 = BTreeFolder2('item3')
         self.f[f3.id] = f3
-        lst = list(self.f.keys())
-        lst.sort()
+        lst = sorted(self.f.keys())
         self.assertEqual(lst, ['item', 'item3'])
 
     def testObjectIdsWithMetaType(self):
@@ -93,8 +92,7 @@ class BTreeFolder2Tests(unittest.TestCase):
         self.assertEqual(list(self.f.objectIds(mt1)), ['item'])
         self.assertEqual(list(self.f.objectIds((mt1, ))), ['item'])
         self.assertEqual(list(self.f.objectIds(mt2)), ['subfolder'])
-        lst = list(self.f.objectIds([mt1, mt2]))
-        lst.sort()
+        lst = sorted(self.f.objectIds([mt1, mt2]))
         self.assertEqual(lst, ['item', 'subfolder'])
         self.assertEqual(list(self.f.objectIds('blah')), [])
 
@@ -126,7 +124,9 @@ class BTreeFolder2Tests(unittest.TestCase):
 
     def testHasKey(self):
         self.assertTrue(self.f.hasObject('item'))  # Old spelling
-        self.assertTrue(self.f.has_key('item'))  # NOQA, New spelling
+        self.assertTrue(  # Another old spelling
+            self.f.has_key('item'))  # noqa: W601 .has_key() is deprecated
+        self.assertIn('item', self.f)  # Current spelling
 
     def testContains(self):
         self.assertTrue('item' in self.f)
@@ -275,6 +275,7 @@ class TrojanKey(object):
 
     then sweeps the rug out from under the BTree.
     """
+
     def __init__(self, value):
         self.value = value
 
