@@ -322,6 +322,12 @@ class BTreeFolder2Base(Persistent):
         else:
             return self.manage_main(self, REQUEST)
 
+    @security.protected(view_management_screens)
+    def manage_delAllObjects(self, REQUEST=None):
+        """Delete all contained objects."""
+        ids = list(self)
+        return self.manage_delObjects(ids=ids, REQUEST=REQUEST)
+
     @security.protected(access_contents_information)
     def tpValues(self):
         """Ensure the items don't show up in the left pane."""

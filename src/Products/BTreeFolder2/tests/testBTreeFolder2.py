@@ -141,6 +141,14 @@ class BTreeFolder2Tests(unittest.TestCase):
         self.assertTrue('item' not in self.f)
         self.assertEqual(len(self.f), 0)
 
+    def testDeleteAllItems(self):
+        for i in range(1000):
+            ff = BTreeFolder2(str(i))
+            self.f._setOb(ff.id, ff)
+        self.f.manage_delAllObjects()
+        self.assertTrue('item' not in self.f)
+        self.assertEqual(len(self.f), 0)
+
     def testIter(self):
         iterator = iter(self.f)
         first = six.next(iterator)

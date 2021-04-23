@@ -9,6 +9,9 @@ Changelog
 - Modernize the ZMI template to match the Zope 4 styles
   (`#10 <https://github.com/zopefoundation/Products.BTreeFolder2/issues/10>`_)
 
+- Add ``Delete All Objects`` button to the manage screen.
+  (`#9 <https://github.com/zopefoundation/Products.BTreeFolder2/issues/9>`_)
+
 
 4.2 (2019-03-08)
 ----------------
