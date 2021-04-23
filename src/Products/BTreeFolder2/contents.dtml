@@ -82,7 +82,7 @@ function toggleSelect() {
   <input class="form-element" type="submit" name="manage_delObjects:method"
    value="Delete" />
   <input class="form-element" type="submit" name="manage_delAllObjects:method"
-   value="Delete All Objects!!" />
+   value="Delete All Objects" />
   </dtml-if>
   <dtml-if "_.SecurityCheckPermission('Import/Export objects', this())">
   <input class="form-element" type="submit"
