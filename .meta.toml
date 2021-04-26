@@ -2,7 +2,7 @@
 # https://github.com/zopefoundation/meta/tree/master/config/zope-product
 [meta]
 template = "zope-product"
-commit-id = "20e717f131ccaa1bc2dd878ba90c4be22d4c7488"
+commit-id = "9f90556c794c07fb953906696fc3037b2847239d"
 
 [python]
 with-appveyor = false
@@ -20,3 +20,6 @@ additional-rules = [
     "recursive-include src *.dtml",
     "recursive-include src *.gif",
     ]
+
+[tox]
+use-flake8 = true
