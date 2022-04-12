@@ -4,7 +4,7 @@ Changelog
 4.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add support for Python 3.10
 
 
 4.3 (2021-04-26)
