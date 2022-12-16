@@ -14,8 +14,12 @@
 """BTreeFolder2
 """
 
+try:
+    from html import escape
+except ImportError:  # Python 2
+    from cgi import escape
+
 import sys
-from html import escape
 from logging import getLogger
 from random import randint
 
