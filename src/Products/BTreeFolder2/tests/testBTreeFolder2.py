@@ -17,8 +17,6 @@
 import unittest
 from functools import total_ordering
 
-import six
-
 from Acquisition import aq_base
 from OFS.Folder import Folder
 from OFS.ObjectManager import BadRequestException
@@ -151,9 +149,9 @@ class BTreeFolder2Tests(unittest.TestCase):
 
     def testIter(self):
         iterator = iter(self.f)
-        first = six.next(iterator)
+        first = next(iterator)
         self.assertEqual(first, 'item')
-        self.assertRaises(StopIteration, six.next, iterator)
+        self.assertRaises(StopIteration, next, iterator)
 
     def testObjectMap(self):
         map = self.f.objectMap()
@@ -250,7 +248,7 @@ class BTreeFolder2Tests(unittest.TestCase):
         self.f._setObject(f2.id, f2)
         self.f.absolute_url = lambda: ''
         info = self.f.getBatchObjectListing()
-        expect = '<option value="%s">%s</option>' % (name, name)
+        expect = f'<option value="{name}">{name}</option>'
         self.assertTrue(info['formatted_list'].find(expect) > 0)
 
     def testCleanup(self):
@@ -278,7 +276,7 @@ class BTreeFolder2Tests(unittest.TestCase):
 
 
 @total_ordering
-class TrojanKey(object):
+class TrojanKey:
     """Pretends to be a consistent, immutable, humble citizen...
 
     then sweeps the rug out from under the BTree.

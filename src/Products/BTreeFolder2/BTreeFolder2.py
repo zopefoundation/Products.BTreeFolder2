@@ -14,16 +14,11 @@
 """BTreeFolder2
 """
 
-try:
-    from html import escape
-except ImportError:  # Python 2
-    from cgi import escape
-
 import sys
+from html import escape
 from logging import getLogger
 from random import randint
-
-from six.moves.urllib.parse import quote
+from urllib.parse import quote
 
 from AccessControl.class_init import InitializeClass
 from AccessControl.Permissions import access_contents_information
@@ -321,8 +316,7 @@ class BTreeFolder2Base(Persistent):
         """Redirect to the workspace of the first object in the list."""
         if ids and REQUEST is not None:
             REQUEST.RESPONSE.redirect(
-                '%s/%s/manage_workspace' % (
-                    self.absolute_url(), quote(ids[0])))
+                f'{self.absolute_url()}/{quote(ids[0])}/manage_workspace')
         else:
             return self.manage_main(self, REQUEST)
 
