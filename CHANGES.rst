@@ -6,6 +6,9 @@ Changelog
 
 - Depend on ``Zope`` instead of ``Zope2``.
 
+- Add a confirmation prompt on ``Delete All Objects`` button.
+  (see `#9 <https://github.com/zopefoundation/Products.BTreeFolder2/issues/9>`_)
+
 
 5.0 (2023-02-01)
 ----------------
