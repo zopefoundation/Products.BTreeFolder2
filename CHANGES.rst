@@ -1,7 +1,7 @@
 Changelog
 =========
 
-5.1 (unreleased)
+5.1 (2023-05-02)
 ----------------
 
 - Depend on ``Zope`` instead of ``Zope2``.
