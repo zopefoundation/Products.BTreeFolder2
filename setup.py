@@ -43,7 +43,6 @@ setup(name='Products.BTreeFolder2',
       ],
       python_requires='>=3.10',
       install_requires=[
-          'setuptools',
           'AccessControl',
           'Acquisition',
           'BTrees',
