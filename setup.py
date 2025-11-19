@@ -16,7 +16,7 @@ from setuptools import setup
 
 
 setup(name='Products.BTreeFolder2',
-      version='6.0.dev0',
+      version='6.0',
       url='https://github.com/zopefoundation/Products.BTreeFolder2',
       license='ZPL-2.1',
       description="A BTree based implementation for Zope's OFS.",
@@ -53,4 +53,5 @@ setup(name='Products.BTreeFolder2',
           'zope.event',
           'zope.lifecycleevent',
       ],
+      include_package_data=True,
       )
