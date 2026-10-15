@@ -52,7 +52,7 @@ but does not provide attribute access.
     </td>
     <td align="left" valign="top">
     <div class="form-element">
-    <input class="form-element" type="submit" name="submit" 
+    <input class="form-element" type="submit" name="submit"
      value="Add" />
     </div>
     </td>
